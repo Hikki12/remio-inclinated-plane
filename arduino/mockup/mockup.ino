@@ -49,6 +49,9 @@ bool btn1 = false;
 bool btn2 = false;
 bool btn3 = false;
 
+bool start = false;
+int positionValue = 0;
+
 // DEFINE INTERNAL VARIABLES ------------------<
 
 bool isInUse = false;
@@ -57,8 +60,8 @@ bool isInUse = false;
 
 // STOP TIMER ---------------------------------<
 
-const long STOP_TIMER_INTERVAL = 10000; //ms
-const int TIME_MINUTES_LIMIT = 2; 
+const long STOP_TIMER_INTERVAL = 60000; //ms
+const int TIME_MINUTES_LIMIT = 10; 
 SimpleTimer stopTimer(STOP_TIMER_INTERVAL);
 int stopMinutes = 0;
 
@@ -68,7 +71,7 @@ int stopMinutes = 0;
 void autoStop(){
 
   if(stopTimer.isReady()){
-//    stopMinutes++;
+    stopMinutes++;
     sendControlVariables();
     stopTimer.reset();
   }
@@ -106,6 +109,7 @@ void sendControlVariables(){
 */
 void notifyDataWereReceived(){
   Serial.println("$received");
+  Serial.println(positionValue);
 }
 
 /*
@@ -118,10 +122,12 @@ void readControlVariables(){
     return;
   }
 
-  btn1 = variables["btn1"];
-  btn2 = variables["btn2"];
-  btn3 = variables["btn3"];
+  // btn1 = variables["btn1"];
+  // btn2 = variables["btn2"];
+  // btn3 = variables["btn3"];
 
+  start = variables["start"];
+  positionValue = variables["position"];
   notifyDataWereReceived();
 }
 

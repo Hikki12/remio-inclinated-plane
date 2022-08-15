@@ -120,7 +120,7 @@ margin-top: 10px;
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="2,1,2,0,0,0,0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout" stretch="2,0,0,0,2,0,0">
         <property name="spacing">
          <number>4</number>
         </property>
@@ -211,55 +211,22 @@ margin-top: 10px;
          </layout>
         </item>
         <item>
-         <widget class="QComboBox" name="devices"/>
-        </item>
-        <item>
-         <widget class="Line" name="line">
-          <property name="frameShadow">
-           <enum>QFrame::Sunken</enum>
-          </property>
-          <property name="lineWidth">
-           <number>1</number>
-          </property>
+         <spacer name="verticalSpacer_2">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Vertical</enum>
           </property>
-         </widget>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item>
-         <widget class="QSlider" name="slider">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btn1">
+         <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Button 1</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btn2">
-          <property name="text">
-           <string>Button 2</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btn3">
-          <property name="text">
-           <string>Button 3</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
+           <string>Pos: 0</string>
           </property>
          </widget>
         </item>
@@ -275,6 +242,29 @@ margin-top: 10px;
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="Line" name="line">
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>1</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="startBtn">
+          <property name="text">
+           <string>Start</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">

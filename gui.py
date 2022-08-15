@@ -1,6 +1,7 @@
 """Example experiment with GUI."""
 import os
 import sys
+import random
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtCore import QTimer
@@ -41,12 +42,11 @@ class CustomMockup(QMainWindow, Mockup):
         self.image = QImageLabel(self.qimage)
         self.pauseBtn.clicked.connect(lambda value: self.updateVideoPauseState(value))
         self.streamBtn.clicked.connect(lambda value: self.streamer.setPause(value))
-        self.ledSerial.clicked.connect(lambda value: self.serialReconnect(value))
+        # self.ledSerial.clicked.connect(lambda value: self.serialReconnect(value))
         self.ledSocket.clicked.connect(lambda value: self.socketReconnect(value))
 
-        self.btn1.clicked.connect(lambda value: self.updateVariables("btn1", value))
-        self.btn2.clicked.connect(lambda value: self.updateVariables("btn2", value))
-        self.btn3.clicked.connect(lambda value: self.updateVariables("btn3", value))
+        self.startBtn.clicked.connect(lambda value: self.updateVariables(key="position", value=self.generateRandomPosition()))
+        # self.btn2.clicked.connect(lambda value: self.updateVariables("btn2", value))
         
 
     def configureControlButtons(self):
@@ -76,9 +76,8 @@ class CustomMockup(QMainWindow, Mockup):
     def configureVariables(self):
         """Configures control variables."""
         self.variables = Variables({
-            "btn1": False,
-            "btn2": False,
-            "btn3": False,
+            "start": False,
+            "position": 0,
         }, interval=3, supervise=self.superviseVariablesStreaming)
         # self.variables.setEnabled(False)
 
@@ -90,30 +89,30 @@ class CustomMockup(QMainWindow, Mockup):
     # GUI
     def lockGUI(self):
         """Locks the GUI elements."""
-        self.btn1.setEnabled(False)
-        self.btn2.setEnabled(False)
-        self.btn3.setEnabled(False)
+        self.startBtn.setEnabled(False)
+        # self.btn2.setEnabled(False)
+        # self.btn3.setEnabled(False)
     
     def unlockGUI(self):
         """Unlocks the GUI elements."""
-        self.btn1.setEnabled(True)
-        self.btn2.setEnabled(True)
-        self.btn3.setEnabled(True)
+        self.startBtn.setEnabled(True)
+        # self.btn2.setEnabled(True)
+        # self.btn3.setEnabled(True)
 
     def setVariablesOnGUI(self):
         """Sets variables on the GUI."""
         variables = self.variables.values()
-        self.btn1.setChecked(variables["btn1"])
-        self.btn2.setChecked(variables["btn2"])
-        self.btn3.setChecked(variables["btn3"])
+        # self.btn1.setChecked(variables["btn1"])
+        # self.btn2.setChecked(variables["btn2"])
+        # self.btn3.setChecked(variables["btn3"])
 
     # Serial
     def serialPortsUpdate(self, ports: list):
         """Sends to the server the list of serial devices."""
         event = {"serial": {"ports": ports}}
         self.socket.emit(EXPERIMENT_EMITS_EVENT_SERVER, event)
-        self.devices.clear()
-        self.devices.addItems(ports)
+        # self.devices.clear()
+        # self.devices.addItems(ports)
 
     def serialConnectionStatus(self, status: dict = {"arduino": False}):
         """Sends to the server the serial devices connection status."""
@@ -122,13 +121,14 @@ class CustomMockup(QMainWindow, Mockup):
     def serialDataIncoming(self, data: str):
         """Reads incoming data from the serial device."""
         json = data["arduino"]
-        if "$" in json:
-            print("message: ", json)
-        else:
-            self.variables.update(json)
-            self.setVariablesOnGUI()
-            self.variables.setStreamingStatus(False)
-            self.streamVariables()
+        # if "$" in json:
+        #     print("message: ", json)
+        # else:
+        #     self.variables.update(json)
+        #     self.setVariablesOnGUI()
+        #     self.variables.setStreamingStatus(False)
+        #     self.streamVariables()
+        print("Arduino says: ", json)
 
     def serialReconnect(self, value: bool):
         """Updates the serial port."""
@@ -191,6 +191,8 @@ class CustomMockup(QMainWindow, Mockup):
         # Stream variables
         self.streamVariables()
 
+        print("---> ", key, value)
+
     def streamVariables(self, lock: bool = True):
         """Streams variables to the server."""
         # Send changes to the server
@@ -200,6 +202,12 @@ class CustomMockup(QMainWindow, Mockup):
         if lock and self.variables.isEnabled():
             self.lockGUI()
             self.variables.waitResponse()
+
+    def generateRandomPosition(self) -> int:
+        """Returns an int number between 10 and 30."""
+        position = random.randint(10, 30)
+        return position
+
 
     def closeEvent(self, event):
         """Stops running threads/processes when close the window."""
@@ -218,7 +226,7 @@ if __name__ == "__main__":
     )
     experiment.start(
         camera=True, 
-        serial=False, 
+        serial=True, 
         socket=True, 
         streamer=False, # disables automatic streaming
         wait=False
