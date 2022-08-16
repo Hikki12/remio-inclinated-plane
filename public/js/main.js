@@ -1,5 +1,5 @@
 import { Variables } from "./utils/variables.js";
-import { CustomImage, CustomButton, ToogleButton, CustomSelect } from "./utils/widget.js"
+import { CustomImage, CustomButton, ToggleButton, CustomSelect } from "./utils/widget.js"
 
 
 // ================= CONFIGURE GUI ELEMENTS ======================
@@ -15,13 +15,10 @@ class CustomMockup {
     /** Loads the GUI */
     loadGUI = () => {
         this.image = new CustomImage("image");
-        // this.connectSerialBtn = new ToogleButton("connectSerialBtn", "button is-light", "button is-light");
-        // this.updateSerialBtn = new CustomButton("updateSerialBtn");
-        // this.portSelect = new CustomSelect("portSelect");
-        this.btn1 = new ToogleButton("btn1", "btn btn-dark", "btn btn-light");
-        this.btn2 = new ToogleButton("btn2", "btn btn-dark", "btn btn-light");
-        this.btn3 = new ToogleButton("btn3", "btn btn-dark", "btn btn-light");
-        this.ledSocket = new ToogleButton("ledSocket", "btn btn-light rounded-pill", "btn btn-success rounded-pill");
+        this.btn1 = new ToggleButton("btn1", "btn btn-dark", "btn btn-light");
+        this.btn2 = new ToggleButton("btn2", "btn btn-dark", "btn btn-light");
+        this.btn3 = new ToggleButton("btn3", "btn btn-dark", "btn btn-light");
+        this.ledSocket = new ToggleButton("ledSocket", "btn btn-light rounded-pill", "btn btn-success rounded-pill");
     }
 
     /** Configures GUI */
